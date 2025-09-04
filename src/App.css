@@ -134,13 +134,13 @@ li p {
 .log-table-scroll {
   max-height: 50vh;
   overflow-y: auto;
+  border: 1px solid var(--border-color);
 }
 }
 
 .log-dialog-content table {
   width: 100%;
   border-collapse: collapse;
-  margin: 10px 0;
 }
 
 .log-dialog-content th,
@@ -159,6 +159,15 @@ li p {
 
 .log-dialog-content .close-button:hover {
   background: var(--secondary-color);
+}
+.log-dialog-content .clear-logs-button {
+  background-color: #dc3545; 
+}
+.log-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 footer {

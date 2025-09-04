@@ -28,6 +28,10 @@ function App() {
     setShowLogDialog(true);
 
   }
+  const clearUserLogs = () => {
+    localStorage.removeItem('userLogs');
+    setLogs([]);
+  }
 
   return (
     <>
@@ -48,7 +52,10 @@ function App() {
         }}>
           Filter by &le; 5 Words
         </button>
-        <button className='clear-button' onClick={() => setFilteredData(data)}>Clear Filter</button>
+        <button className='clear-button' onClick={() => {
+          logUserAction('Cleared Filter');
+          setFilteredData(data);
+        }}>Clear Filter</button>
         <button className='show-logs-button' onClick={() => showLogs()}>
           Show Logs
         </button>
@@ -58,7 +65,8 @@ function App() {
           <ul>
             {filteredData.map((item, index) => (
               <li key={index}>
-                <a href={item.url} target="_blank" rel="noopener noreferrer">{index + 1}.   {item.title}</a>
+                <a href={item.url} target="_blank" rel="noopener noreferrer" onClick={() => logUserAction(`Clicked URL: ${item.url}`)}>
+                  {index + 1}.   {item.title}</a>
                 <p> {item.votes} points | {item.comments} comments </p>
               </li>
             ))}
@@ -73,28 +81,39 @@ function App() {
             <h2>User Action Logs</h2>
 
             {logs.length ? (
-                <div className="log-table-scroll">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Action</th>
-                        <th>Timestamp</th>
+              <div className="log-table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Action</th>
+                      <th>Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {logs.map((log, index) => (
+                      <tr key={index}>
+                        <td>
+                          {log.action.startsWith('Clicked URL: ') ? (
+                            <a href={log.action.replace('Clicked URL: ', '')} target="_blank" rel="noopener noreferrer">
+                              {log.action}
+                            </a>
+                          ) : (
+                            log.action
+                          )}
+                        </td>
+                        <td>{new Date(log.timestamp).toLocaleString()}</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {logs.map((log, index) => (
-                        <tr key={index}>
-                          <td>{log.action}</td>
-                          <td>{new Date(log.timestamp).toLocaleString()}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : (
               <p>No logs available.</p>
             )}
-            <button className='close-button' onClick={() => setShowLogDialog(false)}>Close</button>
+            <div className="log-dialog-footer">
+              <button className='clear-logs-button' onClick={() => clearUserLogs()}>Clear Logs</button>
+              <button className='close-button' onClick={() => setShowLogDialog(false)}>Close</button>
+            </div>
           </div>
         </div>
 
