@@ -6,6 +6,8 @@ import { logUserAction, getUserLogs } from './utils/logger'
 
 function App() {
   const [data, setData] = useState([]);
+  const [logs, setLogs] = useState([]);
+  const [showLogDialog, setShowLogDialog] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,45 +22,85 @@ function App() {
     setFilteredData(data);
   }, [data]);
 
+  const showLogs = () => {
+    const logs = getUserLogs();
+    setLogs(logs);
+    setShowLogDialog(true);
+
+  }
+
   return (
     <>
       <h1>Hacker News Scraper</h1>
-      <div>
-        <button onClick={() => {
+
+      <div className="buttons">
+        <button className='filter-button_more' onClick={() => {
           logUserAction('Filter by >5 Words');
           const filtered = filterWordCount(data, 5, 'more');
           setFilteredData(sortData(filtered, 'comments', 'desc'));
         }}>
-          Filter by &gt;5 Words
+          Filter by &gt; 5 Words
         </button>
-        <button onClick={() => {
+        <button className='filter-button_less' onClick={() => {
           logUserAction('Filter by ≤5 Words');
           const filtered = filterWordCount(data, 6, 'less');
           setFilteredData(sortData(filtered, 'votes', 'desc'));
         }}>
-          Filter by &le;5 Words
+          Filter by &le; 5 Words
         </button>
-        <button onClick={() => setFilteredData(data)}>Clear Filter</button>
-        <button onClick={() => {
-          const logs = getUserLogs();
-          console.log(logs);
-        }}>
+        <button className='clear-button' onClick={() => setFilteredData(data)}>Clear Filter</button>
+        <button className='show-logs-button' onClick={() => showLogs()}>
           Show Logs
         </button>
       </div>
-      {filteredData.length ? (
-        <ul>
-          {filteredData.map((item, index) => (
-            <li key={index}>
-              <span>{index + 1}. </span>
-              <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}</a>
-              <p>{item.votes} | {item.comments}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Loading...</p>
-      )}
+      <main>
+        {filteredData.length ? (
+          <ul>
+            {filteredData.map((item, index) => (
+              <li key={index}>
+                <a href={item.url} target="_blank" rel="noopener noreferrer">{index + 1}.   {item.title}</a>
+                <p> {item.votes} points | {item.comments} comments </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className='loading'>Loading...</p>
+        )}
+      </main>
+      {showLogDialog && (
+        <div className="log-dialog">
+          <div className="log-dialog-content">
+            <h2>User Action Logs</h2>
+
+            {logs.length ? (
+                <div className="log-table-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Action</th>
+                        <th>Timestamp</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {logs.map((log, index) => (
+                        <tr key={index}>
+                          <td>{log.action}</td>
+                          <td>{new Date(log.timestamp).toLocaleString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+            ) : (
+              <p>No logs available.</p>
+            )}
+            <button className='close-button' onClick={() => setShowLogDialog(false)}>Close</button>
+          </div>
+        </div>
+
+      )}<footer>
+        <a href="https://gurjant.fyi" target="_blank" rel="noopener noreferrer">Made by Gurjant Singh</a>
+      </footer>
     </>
   )
 }

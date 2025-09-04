@@ -11,12 +11,15 @@ async function crawler() {
     items.forEach(item => {
         const title = item.querySelector('.titleline a').innerText;
         const url = item.querySelector('.titleline a').href;
+
         const subtext = item.nextElementSibling.querySelector('.subtext');
-        const votes = subtext.querySelector('.score') ? subtext.querySelector('.score').innerText : '0';
 
-        const commentsLink = Array.from(subtext.querySelectorAll('a')).find(link => link.innerText.includes('comment'));
-        const comments = commentsLink ? commentsLink.innerText : '0';
+        const votesText = subtext.querySelector('.score') ? subtext.querySelector('.score').innerText : '0 points';
+        const votes = parseInt(votesText.replace(/\D/g, ''), 10);
 
+        const commentsLink = Array.from(subtext.querySelectorAll('a')).find(a => a.innerText.includes('comment'));
+        const commentsText = commentsLink ? commentsLink.innerText : '0 comments';
+        const comments = parseInt(commentsText.replace(/\D/g, ''), 10);
         itemsList.push({ title, url, votes, comments });
     });
     return itemsList;

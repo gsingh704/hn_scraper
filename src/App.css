@@ -1,42 +1,173 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --background-color: #f8f9fa;
+  --text-color: #212529;
+  --border-color: #dee2e6;
+
+  margin: auto;
+  max-width: 800px;
+  padding: 20px;
+
+  font-family: Arial, sans-serif;
+}
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+h1 {
   text-align: center;
 }
+.buttons {
+  margin: auto;
+  display: flex;
+  justify-content: center;
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  gap: 10px;
+  flex-wrap: wrap;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+  padding: 10px 15px;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.filter-button_more {
+  background-color: #28a745;  
+}
+.filter-button_more:hover {
+  background-color: #218838; 
+}
+.filter-button_less {
+  background-color: #FDD835;  
+  color: black;
 }
 
-.card {
-  padding: 2em;
+.filter-button_less:hover {
+  background-color: #FBC02D; 
 }
 
-.read-the-docs {
-  color: #888;
+.clear-button {
+  background-color: #dc3545; 
+}
+.clear-button:hover {
+  background-color: #c82333;  
+}
+
+.show-logs-button {
+  background-color: #17a2b8; 
+}
+.show-logs-button:hover {
+  background-color: #138496; 
+}
+
+main {
+  margin-top: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: white;
+
+}
+
+li {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;;
+  flex-direction: column;
+}
+
+li a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+li p {
+  margin: 5px;
+  color: var(--secondary-color);
+  font-size: 0.9em;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2em;
+  color: var(--secondary-color);
+}
+
+.log-dialog {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background:  rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.log-dialog-content {
+  background: white;
+  padding: 20px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow:  0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+
+
+.log-table-scroll {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+}
+
+.log-dialog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.log-dialog-content th,
+.log-dialog-content td {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+}
+
+.log-dialog-content th {
+  background: var(--background-color);
+  text-align: left;
+}
+.log-dialog-content td {
+  word-break: break-word;
+}
+
+.log-dialog-content .close-button:hover {
+  background: var(--secondary-color);
+}
+
+footer {
+  text-align: center;
+  margin: 20px 0;
+  color: var(--secondary-color);
+}
+
+footer a {
+  color: var(--primary-color);
+  text-decoration: none;
 }
